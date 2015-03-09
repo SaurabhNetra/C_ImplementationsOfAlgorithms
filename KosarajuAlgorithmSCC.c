@@ -107,7 +107,7 @@ void DFS_Loop(bool);
 int main()
 {
     //Open the Input File in Read Mode
-    FILE *fin=fopen("SCC.txt","r");
+    FILE *fin=fopen("res\\SCC.txt","r");
 
     int u,v;
     int i,j;

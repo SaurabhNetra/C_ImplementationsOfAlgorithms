@@ -37,7 +37,7 @@ int main()
     /*Open the Input File in Read Mode
     The file contains all of the integers between 1 and 10,000 (inclusive, with no repeats)
     in unsorted order*/
-    FILE *f_in=fopen("QuickSort.txt","r");
+    FILE *f_in=fopen("res\\QuickSort.txt","r");
 
     //Declare the Array and a Counter to Iterate over its Elements
     int a[N],i;

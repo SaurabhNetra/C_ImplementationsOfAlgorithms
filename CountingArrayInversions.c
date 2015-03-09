@@ -24,7 +24,7 @@ int main()
     /*Open the Input File in Read Mode
     This file contains all of the 100,000 integers between 1 and 100,000 (inclusive)
     in some order, with no integer repeated*/
-    FILE *f_in=fopen("IntegerArray.txt","r");
+    FILE *f_in=fopen("res\\IntegerArray.txt","r");
 
     //Declare the Array and a Counter to Iterate over its Elements
     int a[N],i;

@@ -98,7 +98,7 @@ struct HeapNode extract(bool heap_id)
 int main()
 {
     //Open the input File in Read Mode
-    FILE *fin=fopen("Median.txt","r");
+    FILE *fin=fopen("res\\Median.txt","r");
 
     //Initialize the Computed Sum of Medians
     int m=0;

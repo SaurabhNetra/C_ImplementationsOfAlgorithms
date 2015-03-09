@@ -11,6 +11,7 @@ where n-> Number of Vertices and m-> Number of Edges*/
 #include<time.h>
 #include<limits.h>
 #include<stdbool.h>
+#include<math.h>
 
 //The Number of Vertices
 #define N 200
@@ -25,7 +26,7 @@ struct edge
 int main()
 {
     //Open the Input File in Read Mode
-    FILE *f_in=fopen("D:\\ADA1\\kargerMinCut.txt","r");
+    FILE *f_in=fopen("res\\kargerMinCut.txt","r");
 
     //Create an Empty Linked List of Edges
     struct edge *E=NULL;
@@ -94,7 +95,7 @@ int main()
 
     //Perform n^2*log(n) trials which brings down the Failure Probability of the Algorithm to 1/n
     int trial_number;
-    for(trial_number=1;trial_number<=N*N;trial_number++)
+    for(trial_number=1;trial_number<=N*N*log(N);trial_number++)
     {
         //Clear the Edge Copy Linked List
         while(E_copy!=NULL)

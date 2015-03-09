@@ -60,7 +60,7 @@ bool lookup(int x)
 int main()
 {
     //Open the Input File in Read Mode
-    FILE *fin=fopen("HashInt.txt","r");
+    FILE *fin=fopen("res\\HashInt.txt","r");
 
     //Extract the array of numbers and Insert them all into the Hash Table
     int i,x,t,count=0;

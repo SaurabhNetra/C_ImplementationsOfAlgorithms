@@ -119,7 +119,7 @@ struct HeapNode delete_At_pos(int pos)
 int main()
 {
     //Open the Input File in Read Mode
-    FILE *fin=fopen("dijkstraData.txt","r");
+    FILE *fin=fopen("res\\dijkstraData.txt","r");
 
     /*Extract Edges from the Input file and create the Adjacencyt List
     The file contains an adjacency list representation of an undirected
