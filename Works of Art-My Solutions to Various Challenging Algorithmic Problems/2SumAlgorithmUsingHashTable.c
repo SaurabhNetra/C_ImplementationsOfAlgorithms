@@ -3,10 +3,10 @@
 
 The Program implements a variant of the 2-SUM algorithm in O(n) time using Hash Tables
 
-The input file contains 500,000 positive integers (there might be some repetitions!)
+The input file contains 500,000 positive integers (there might be some repetitions)
 with the ith row of the file specifying the ith entry of the array.
-The task is to compute the number of target values t in the interval [2500,4000] (inclusive)
-such that there are distinct numbers x,y in the input file that satisfy x+y=t.
+The task is to compute the number of target values 't' in the interval [2500,4000] (inclusive)
+such that there are distinct numbers x,y in the input file that satisfy x + y = t.
 */
 
 //Include Files
@@ -38,8 +38,10 @@ Uses Linear Probing for resolving collisions*/
 void insert(int x)
 {
     int hx=h(x);
+
     while(A[hx].set)
         hx++;
+
     A[hx].key=x;
     A[hx].set=true;
 }
@@ -48,8 +50,10 @@ void insert(int x)
 bool lookup(int x)
 {
     int hx=h(x);
+
     while(A[hx].key!=x && A[hx].set)
         hx++;
+
     if(A[hx].key==x && A[hx].set)
         return true;
     else
@@ -60,7 +64,7 @@ bool lookup(int x)
 int main()
 {
     //Open the Input File in Read Mode
-    FILE *fin=fopen("res\\HashInt.txt","r");
+    FILE *fin=fopen("InputFiles\\HashInt.txt","r");
 
     //Extract the array of numbers and Insert them all into the Hash Table
     int i,x,t,count=0;
@@ -70,8 +74,9 @@ int main()
         insert(x);
     }
     fclose(fin);
+
     /*For every required 't' value, test whether there exist 2 numbers in
-    the hash table whose sum is 't'* and count all such occurences*/
+    the hash table whose sum is 't' and count all such occurences*/
     for(t=2500;t<=4000;t++)
     {
         //Repeat for all positions in the Hash table

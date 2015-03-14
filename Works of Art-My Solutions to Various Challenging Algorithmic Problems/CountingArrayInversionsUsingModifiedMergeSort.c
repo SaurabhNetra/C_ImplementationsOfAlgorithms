@@ -2,7 +2,10 @@
                  saurabh.netravalkar@gmail.com
 
 This Program Counts the Number of Inversions in an Array in O(n*log(n)) time
-using modifications in the Merge Sort Algorithm*/
+using modifications in the Merge Sort Algorithm
+
+Note: An inversion is a pair of places of a sequence where the elements on these places are out of their natural order.
+*/
 
 //Include Files
 #include<stdlib.h>
@@ -12,19 +15,20 @@ using modifications in the Merge Sort Algorithm*/
 //The Size of the Input Array
 #define N 100000
 
-//Function Prototypes
+//-------Function Prototypes---------
+
 //A Modification of the Merge Sort Algorithm
 unsigned int sort_and_countinv(int *,int);
 //A Modification of the Merge Function of the Merge Sort Algorithm
 unsigned int merge_and_countsplitinv(int *,int);
 
-//Main Function
+//------Main Function--------
 int main()
 {
     /*Open the Input File in Read Mode
     This file contains all of the 100,000 integers between 1 and 100,000 (inclusive)
     in some order, with no integer repeated*/
-    FILE *f_in=fopen("res\\IntegerArray.txt","r");
+    FILE *f_in=fopen("InputFiles\\IntegerArray.txt","r");
 
     //Declare the Array and a Counter to Iterate over its Elements
     int a[N],i;
@@ -54,8 +58,10 @@ unsigned int sort_and_countinv(int *a,int n)
 
         //Sort the Left Half of 'a' and Store the Number of Inversions in it in 'x'
         x=sort_and_countinv(a,n/2);
+
         //Sort the Right Half of 'a' and Store the Number of Inversions in it in 'y'
         y=sort_and_countinv(a+n/2,n-n/2);
+
         //Merge the two Halfs, compute the Number of Split Inversions and Store their number in 'z'
         z=merge_and_countsplitinv(a,n);
 
@@ -73,10 +79,13 @@ unsigned int merge_and_countsplitinv(int *a,int n)
 {
     //Pointer to the Beginning of the Left Half of 'a'
     int i=0;
+
     //Pointer to the Beginning of the Right Half of 'a'
     int j=n/2;
+
     //A temporary Array to store the result of the Merge operation
     int *temp=(int *)malloc(n*sizeof(int));
+
     //Pointer to the Beginning of 'temp'
     int k=0;
 

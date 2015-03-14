@@ -1,7 +1,7 @@
 /*Programmed by: Saurabh Naresh Netravalkar
                  saurabh.netravalkar@gmail.com
 
-This program implements the "Median Maintenance" algorithm in O(n*log(n)) time using two Heaps
+This program implements the "Median Maintenance" algorithm in O(n*log(n)) time using two Binary Heaps
 
 The input file contains a list of the integers from 1 to 10000
 in unsorted order, which is to be treated as a stream of numbers,
@@ -11,7 +11,7 @@ the kth median mk is defined as the median of the numbers x1,…,xk.
 if k is even, then mk is the (k/2)th smallest number among x1,…,xk.)
 
 The task is to compute the sum of these 10000 medians, modulo 10000 (i.e., only the last 4 digits).
-That is, to compute (m1+m2+m3+...+m10000)mod10000.*/
+That is, to compute (m1+m2+m3+...+m10000) mod 10000.*/
 
 //Include Files
 #include<stdlib.h>
@@ -21,7 +21,7 @@ That is, to compute (m1+m2+m3+...+m10000)mod10000.*/
 //Length of the input Array of numbers
 #define N 10000
 
-//A Generic Swap Function
+//A Generic Swap Macro
 #define swap(X,Y,T) {T t=X; X=Y; Y=t;}
 
 /*Heap Data Structure
@@ -33,6 +33,8 @@ struct HeapNode
 }Heap[2][N/2];
 int heap_len[2];
 
+/*Insert Fnction for the Heaps
+Parameters: heap_node -> The element to be inserted, heap_id -> To identify which of the 2 heaps to insert into*/
 void insert(struct HeapNode heap_node, bool heap_id)
 {
     //Append the new Node to the End of the Heap
@@ -50,16 +52,17 @@ void insert(struct HeapNode heap_node, bool heap_id)
     }
 }
 
-/*Extracts
+/*Function to Extract either
 1. The Maximum element of 1st Heap when 'heap_id = 0'
-2. The minimum element of the 2nd Heap when 'heap_id = 1'*/
+2. The Minimum element of the 2nd Heap when 'heap_id = 1'*/
 struct HeapNode extract(bool heap_id)
 {
     //Swap the 1st Element with the last element in the Heap and Remove it
     heap_len[heap_id]--;
     swap(Heap[heap_id][0],Heap[heap_id][heap_len[heap_id]],struct HeapNode);
 
-    //Swap the Newly placed element at the 1st position with its Children till the Heap Property is Satisfied
+    /*Swap the Newly placed element at the 1st position with its Minimum/Maximum Child till the Heap Property is Satisfied
+    Note: The swap condition changes with 'heap_id' since 1st Heap is a Max Heap while 2nd one is a Min Heap*/
     int i=0;
     while(1)
     {
@@ -88,7 +91,7 @@ struct HeapNode extract(bool heap_id)
     return Heap[heap_id][heap_len[heap_id]];
 }
 
-//Look at 1st Element of Heap(Minimum element for Heap 1 and Maximum element for Heap2 respectively
+//Look at 1st Element of Heap(i.e. Minimum element for Heap 1 and Maximum element for Heap2 respectively)
 #define peek(heap_id) Heap[heap_id][0]
 
 //To check if a Heap is empty
@@ -98,17 +101,17 @@ struct HeapNode extract(bool heap_id)
 int main()
 {
     //Open the input File in Read Mode
-    FILE *fin=fopen("res\\Median.txt","r");
+    FILE *fin=fopen("InputFiles\\Median.txt","r");
 
     //Initialize the Computed Sum of Medians
     int m=0;
 
     /*Loop to extract integers from the input file one at a time and to successively compute medians
-    of elements processed upto the last read number
+    of elements processed upto the last read number.
     Note:
-    Loop Invariant: Both heaps contain half of the elements processed
+    Loop Invariant: Both heaps contain half of the elements processed.
     (In case of an odd number of elements, the 1st heap contains 1 extra element)
-    The numbers in 1st heap are all less than numbers in the 2nd heap
+    The numbers in 1st heap are all less than numbers in the 2nd heap.
     Thus the Median is always the 1st element(Maximum element) of the 1st Heap*/
     int i,n;
     for(i=0;i<N;i++)

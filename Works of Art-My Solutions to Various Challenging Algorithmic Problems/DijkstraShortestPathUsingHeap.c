@@ -2,7 +2,7 @@
                  saurabh.netravalkar@gmail.com
 
 This Program is an implementation of the Dijkstra's Shortest Path Algorithm
-which uses Heaps to obtain a running time of O(m*log(n))*/
+which uses Binary Heaps to obtain a running time of O(m*log(n))*/
 
 //Include Files
 #include<stdio.h>
@@ -17,17 +17,20 @@ which uses Heaps to obtain a running time of O(m*log(n))*/
 #define INFINITY 1000000
 #define NOT_IN_HEAP -1
 
-//A Generic Swap Function
+//A Generic Swap Macro
 #define swap(X,Y,T) {T t=X; X=Y; Y=t;}
 
-//A Structure for storing the Adjacency List Representation of the Graph
+/*A Structure for storing the Adjacency List Representation of the Graph
+i.e. For Every Vertex, there is a Linked List containing all Adjacent Vertices */
 struct Vertex
 {
     //The adjacent Vertex's label
     int label;
+
     //The length of that edge
     int edge_len;
 
+    //Pointer to the next Vertex Element of the Linked List
     struct Vertex *next;
 }*V[N];
 
@@ -72,8 +75,19 @@ struct HeapNode extract_aux(int pos)
     swap(heap_pos[Heap[pos].vertex],heap_pos[Heap[heap_len].vertex],int);
     swap(Heap[pos],Heap[heap_len],struct HeapNode);
 
-    //Swap the Newly placed element in 'pos' with its Children till the Heap Property is Satisfied
+    //Keep Swapping the element with its parent till the Heap Property is Satisfied
     int i=pos;
+    int parent=(i-1)/2;
+    while(parent>=0 && Heap[i].key<Heap[parent].key)
+    {
+        swap(heap_pos[Heap[i].vertex],heap_pos[Heap[parent].vertex],int);
+        swap(Heap[i],Heap[parent],struct HeapNode);
+        i=parent;
+        parent=(i-1)/2;
+    }
+
+    //Swap the element in 'pos' with its Minimum Children(Since Its a Min Heap) till the Heap Property is Satisfied
+    i=pos;
     while(1)
     {
         int left_child=2*i+1,right_child=left_child+1,next_node;
@@ -91,12 +105,14 @@ struct HeapNode extract_aux(int pos)
         }
         if(Heap[next_node].key>=Heap[i].key)
             break;
+
         swap(heap_pos[Heap[next_node].vertex],heap_pos[Heap[i].vertex],int);
         swap(Heap[next_node],Heap[i],struct HeapNode);
 
         i=next_node;
     }
 
+    //Update the Mapping Array to reflect the removal of the element
     heap_pos[Heap[heap_len].vertex]=NOT_IN_HEAP;
 
     //Return the Element which was Removed from the Heap
@@ -109,7 +125,7 @@ struct HeapNode extract_min()
     return extract_aux(0);
 }
 
-//Delete a Node stored t position 'pos' from the Heap
+//Delete a Node stored at position 'pos' from the Heap
 struct HeapNode delete_At_pos(int pos)
 {
     return extract_aux(pos);
@@ -119,9 +135,9 @@ struct HeapNode delete_At_pos(int pos)
 int main()
 {
     //Open the Input File in Read Mode
-    FILE *fin=fopen("res\\dijkstraData.txt","r");
+    FILE *fin=fopen("InputFiles\\dijkstraData.txt","r");
 
-    /*Extract Edges from the Input file and create the Adjacencyt List
+    /*Extract Edges from the Input file and create the Adjacency List.
     The file contains an adjacency list representation of an undirected
     weighted graph with 200 vertices labeled 1 to 200. Each row consists
     of the node tuples that are adjacent to that particular vertex along
@@ -138,9 +154,11 @@ int main()
     {
         switch(args)
         {
+            //If 'fscanf' manages to extract only 1 integer, it is the vertex label whose edges will follow
             case 1:
                 i=j-1;
                 break;
+            //If 'fscanf' manages to extract 2 integers, it is the edge which is to be added to our adjacency list
             case 2:
                 v_new=(struct Vertex *)malloc(sizeof(struct Vertex));
                 v_new->label=j-1;
@@ -151,6 +169,8 @@ int main()
         }
     }
     fclose(fin);
+
+    //--------------Dijkstra's Algorithm Begins----------------------
 
     //Initialize the 'heap_pos' array
     for(i=0;i<N;i++)
@@ -191,16 +211,22 @@ int main()
         }
     }
 
-    //Explore one Vertex in each loop till all 'N' vetices are explored
+
+    /*Explore one Vertex in each loop till all 'N' vertices are explored.
+    Loop Invariant: All Unprocessed Vertices 't' are stored in the Heap, with their 'key'
+    attribute being the shortest s-t path discovered so far only considering all those vertices 'v' which are already
+    visited, to be part of those shortest paths*/
     for(i=0;i<N-1;i++)
     {
         //Extract the Nearest Vertex from the Heap
         struct HeapNode min_node=extract_min();
 
-        /*Update the 'key' attributes of all Vertices 'v' in the Heap
+        /*The extracted vertex now becomes visited.
+        Hence Update the 'key' attributes of all Vertices 'v' in the Heap
         to contain the minimum of
         1. key of 'v'
         2. key of 'min_node'+dist('min_node','v')
+        to maintain the Loop Invariant
         */
         struct Vertex *ptr;
         for(ptr=V[min_node.vertex];ptr!=NULL;ptr=ptr->next)

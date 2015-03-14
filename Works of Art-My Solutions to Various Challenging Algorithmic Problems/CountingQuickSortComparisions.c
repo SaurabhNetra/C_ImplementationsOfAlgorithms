@@ -15,9 +15,11 @@ cases:
 //Length of the Array
 #define N 10000
 
-//Global Variables
+//---Global Variables-----
+
 //Stores the Number of Comparisions made
 int count;
+
 /*To Identify the case number of the Pivot Selection Method
 used by the QuickSort Function*/
 int case_number;
@@ -25,19 +27,21 @@ int case_number;
 //Macro for a Generic Swap Function
 #define swap(x,y,T) {T temp=x; x=y; y=temp;}
 
-//Function Prototypes
+//-----Function Prototypes----
+
 //The Quick Sort Algorithm
 void QuickSort(int *,int);
+
 //The Partition Function of the Quick Sort Algorithm
 int partition(int *,int,int);
 
-//Main Function
+//-------Main Function-------
 int main()
 {
     /*Open the Input File in Read Mode
     The file contains all of the integers between 1 and 10,000 (inclusive, with no repeats)
     in unsorted order*/
-    FILE *f_in=fopen("res\\QuickSort.txt","r");
+    FILE *f_in=fopen("InputFiles\\QuickSort.txt","r");
 
     //Declare the Array and a Counter to Iterate over its Elements
     int a[N],i;
@@ -48,16 +52,18 @@ int main()
     fclose(f_in);
 
     printf("Total Number of Comparisions:\n");
+
     //Repeat for all the above defined Three Cases of Pivot Selection
     for(case_number=1;case_number<=3;case_number++)
     {
         //Create a Duplicate of 'a'
         int duplicate[N];
+
         //Copy the contents of 'a' into 'duplicate'
         memcpy(duplicate,a,N*sizeof(int));
 
         /*Since all 'N-1' elements get compared exactly once with the pivot element in the
-        QuickSort Function, Store 'N-1' in 'count' and Call the Quicksort Function*/
+        QuickSort Function, Add 'N-1' to 'count' and Call the Quicksort Function*/
         count = N-1;
         QuickSort(duplicate,N);
 
@@ -81,11 +87,15 @@ void QuickSort(int *a,int n)
         int p=partition(a,0,n-1),i;
         if(p>0)
         {
+            /*Since all 'p-1' elements get compared exactly once with the pivot element in the
+            QuickSort Function, Add 'p-1' to 'count' and Call the Quicksort Function*/
             count+=p-1;
             QuickSort(a,p);
         }
         if(n-p-1>0)
         {
+            /*Since all '((n-1)-p)-1' elements get compared exactly once with the pivot element in the
+            QuickSort Function, Add '((n-1)-p)-1' to 'count' and Call the Quicksort Function*/
             count+=n-p-2;
             QuickSort(a+p+1,n-p-1);
         }
@@ -93,9 +103,12 @@ void QuickSort(int *a,int n)
 }
 
 /*The Partition Function works on a sub-array of 'a' from index 'l' to ''r'
+
 It selects a pivot element and places it in such a way that all elements less than or equal to it,
 lie to its left and all elements greater than it lie to its right
+
 Parameters: a->Array under consideration, l->lower index of the array, r->upper index of the array
+
 Returns the position of the pivot element in the array*/
 int partition(int *a,int l,int r)
 {

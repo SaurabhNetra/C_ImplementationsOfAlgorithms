@@ -2,8 +2,16 @@
                  saurabh.netravalkar@gmail.com
 
 This Program uses the Karger's Random Edge Contraction Algorithm to Compute
-the Minimum Cut of a Graph in O(n^3*log(n)*m) time,
-where n-> Number of Vertices and m-> Number of Edges*/
+the Minimum Cut of a Graph in O(n^3*m) time,
+where n-> Number of Vertices and m-> Number of Edges
+
+Note: The Algorithm Can get Better and more accurate if,
+1. Edge Contraction is implemented using Union Find Data Structure, just like Kruskal's MST Algorithm, which is O(m*log(n))
+2. Number of Trials are increased from n^2 to n^2*log(n), to reduce failure probability to 1/n from the current 1/e.
+Thus, this improved algorithm would give O(n^2*log(n)^2*m) overall running time.
+
+Reference: http://en.wikipedia.org/wiki/Karger's_algorithm
+*/
 
 //Include Files
 #include<stdio.h>
@@ -11,7 +19,6 @@ where n-> Number of Vertices and m-> Number of Edges*/
 #include<time.h>
 #include<limits.h>
 #include<stdbool.h>
-#include<math.h>
 
 //The Number of Vertices
 #define N 200
@@ -23,10 +30,11 @@ struct edge
     struct edge *next;
 };
 
+//Main Function
 int main()
 {
     //Open the Input File in Read Mode
-    FILE *f_in=fopen("res\\kargerMinCut.txt","r");
+    FILE *f_in=fopen("InputFiles\\kargerMinCut.txt","r");
 
     //Create an Empty Linked List of Edges
     struct edge *E=NULL;
@@ -40,7 +48,7 @@ int main()
 
     int u;
 
-    /*Read from the Input File character by Character and Extract Edges of the Graph
+    /*Read from the Input File character by Character and Extract Edges of the Graph.
     The file contains the adjacency list representation of a simple undirected graph.
     There are 200 vertices labeled 1 to 200. The first column in the file represents
     the vertex label, and the particular row (other entries except the first column)
@@ -88,14 +96,15 @@ int main()
     struct edge *E_copy=NULL;
     int m_copy=0;
 
+    //Initialize the Random Number Generator
     srand(time(NULL));
 
     //Initialize the Minimm Cut value to be Infinity
     int min_cut=INT_MAX;
 
-    //Perform n^2*log(n) trials which brings down the Failure Probability of the Algorithm to 1/n
+    //Perform n^2 trials which brings down the Failure Probability of the Algorithm to 1/e
     int trial_number;
-    for(trial_number=1;trial_number<=N*N*log(N);trial_number++)
+    for(trial_number=1;trial_number<=N*N;trial_number++)
     {
         //Clear the Edge Copy Linked List
         while(E_copy!=NULL)
@@ -167,7 +176,7 @@ int main()
         }
 
         /*If the Computed Minimum Cut in this Trial is Better than
-        the Minimum Obtained so far, then stor it as the new minimum*/
+        the Minimum Obtained so far, then store it as the new minimum*/
         if(m_copy<min_cut)
             min_cut=m_copy;
     }
