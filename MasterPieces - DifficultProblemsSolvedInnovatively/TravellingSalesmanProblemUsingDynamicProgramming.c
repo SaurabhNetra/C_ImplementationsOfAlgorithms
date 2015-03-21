@@ -232,11 +232,11 @@ int main()
         exit(0);
     }
 
-    //Read 'n', the numbe of cities
+    //Read 'n', the number of cities
     fscanf(fin,"%d",&n);
     //printf("Number of Cities: %d\n",n);
 
-    //Allocate memort to the'city' array
+    //Allocate memory to the'city' array
     city=malloc(n*sizeof(struct City));
 
     //Read co-ordinates of every city one by one
@@ -248,7 +248,7 @@ int main()
 
     fclose(fin);
 
-    //Initialize the Array of Linked Lists 'set_of_length' which stores a Lisr of subsets for every subset size
+    //Initialize the Array of Linked Lists 'set_of_length' which stores a List of subsets for every subset size
     set_of_length=calloc(n,sizeof(struct Subset *));
     length_of_set_of_length=calloc(n,sizeof(int));
 
@@ -271,7 +271,7 @@ int main()
 
     /*Store the Last Iteration of the Dynamic Programming Algorithm in 'last_m'
     Note: The original Dynamic Programming algorithm runs for subset sizes iterating
-    over 1,2,3,...,n-1, where 'm+1' gives the subset size at each iteeration.
+    over 1,2,3,...,n-1, where 'm+1' gives the subset size at each iteration.
     i.e. in 1st iteration, we work with subsets of size 2, and so on.
 
     MY TIME OPTIMIZATION:
@@ -280,10 +280,10 @@ int main()
     travelling each city exactly once. But, for every such subset of (n-1)/2 cities traversed, there exists a
     complement subset path which traverses the other n/2 cities(Only common city in the two paths is the source city '1').
     Hence, such complement pairs can be found, and their path lengths can be merged to find the cost of the entire tour.
-    Further the shortest such tour, gives us our optimal solution.
+    Further, the shortest such tour, gives us our optimal solution.
     Note: When 'n-1' is odd, complement paths exist across two successive iterations.
     e.g. for 'n' =  6, last_m = 3,
-    But since 'n-1' is odd we consider iteration m = 2,3 i.e. subsets of size 3 and 4,
+    But since 'n-1' is odd we consider iteration m = 2,3 .i.e. subsets of size 3 and 4,
     e.g. there exists a subset 000111b in 2nd iteration and subset 111001 in iteration 3.
     these two subsets form complements as they have only '1' common city, i.e source city and their
     union gives us the entire tour length.
@@ -420,7 +420,7 @@ int main()
     }
 
 
-    //Initialze the optimal tour to be Infinity
+    //Initialize the optimal tour to be Infinity
     double min_tour_cost=DBL_MAX;
 
     int s1,s2;
@@ -472,7 +472,7 @@ int main()
     //If 'n' is Odd consider complement subset from previous iteration 'm-1'
     else
     {
-    //For al subsets of size n/2
+    //For all subsets of size n/2
     for(s1=0;s1<length_of_set_of_length[last_m];s1++)
     {
         //Find Complement subset and check if it exists
